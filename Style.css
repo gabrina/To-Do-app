@@ -1,0 +1,103 @@
+* {
+  margin: 0px;
+  padding: 0px;
+  box-sizing: border-box;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+body {
+  background-color: #f6f6f7;
+  max-width: 1200px;
+  margin: auto; /*centeralize items*/
+}
+
+#Top {
+  text-align: center;
+  /* border: 1px solid black; */
+  box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+  margin-top: 5%;
+  padding: 20px 20px;
+  background-color: white;
+  border-radius: 16px;
+}
+
+#Top h1 {
+  padding-top: 30px;
+}
+
+#top label,
+input,
+button {
+  margin: 8px;
+}
+
+input {
+  border: 1px #f9d72f solid;
+  height: 35px;
+  width: 400px;
+  border-radius: 4px;
+}
+
+button {
+  height: 40px;
+  width: 90px;
+  border: none;
+  font-size: 1rem;
+  border-radius: 8px;
+  background-color: #f9d72f;
+}
+
+label {
+  margin: 16px;
+  width: max-content;
+}
+
+#secondRow,
+#thirdRow {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  margin-top: 32px;
+}
+
+#New,
+#dueDate {
+  display: flex;
+  flex-direction: row;
+}
+
+#deleteButton button {
+  background-color: #f87171;
+}
+
+table{
+    width:100%;
+    height: 30px;
+    margin-top:60px;
+    border:solid 1px white;
+    background-color: gainsboro;
+    border-radius: 8px;
+}
+
+thead td{
+    background-color: gray;
+}
+table tr td{
+    height:25px;
+    padding:5px;
+    text-align: center;
+    max-width:400px;
+    flex-wrap: nowrap;
+}
+
+#id{
+    background-color:#f9d72f ;
+}
+
+#Do{
+    background-color: green;
+}
+
+#Delete{
+    background-color: #f87171;
+}
