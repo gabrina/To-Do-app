@@ -15,14 +15,14 @@
             <div id="secondRow">
                 <div id="New">
                     <label for="input">New To-do:</label>
-                    <input type="text" />
+                    <input id="todo-name" type="text" />
                 </div>
                 <div id="dueDate">
                     <label for="dueDate">Due Date:</label>
-                    <input type="date" />
+                    <input id="todo-due" type="date" />
                 </div>
                 <div id="addButton">
-                    <button>Add</button>
+                    <button id="addNewToDo">Add</button>
                 </div>
             </div>
             <div id="thirdRow">
@@ -36,7 +36,9 @@
                 </div>
             </div>
         </section>
-        <section id="alert"></section>
+        <section id="alert-massage">
+            <p class="alert"></p>
+        </section>
         <table>
             <thead>
                 <td>Task</td>
