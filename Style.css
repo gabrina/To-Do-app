@@ -40,6 +40,7 @@ body {
 input,
 button {
     margin: 8px;
+    cursor: pointer;
 }
 
 input {
@@ -154,4 +155,27 @@ thead td {
 
 #alert-massage {
     height: 90px;
+}
+
+
+.editButton {
+    background-color: var(--color-warning);
+}
+
+.deleteButton {
+    background-color: var(--color-error);
+}
+
+.doButton{
+    background-color: var(--color-sucess);
+}
+
+.actionButton{
+    text-align: center;
+    height: 30px;
+    width: 80px;
+}
+
+.filter{
+    display: none;
 }
