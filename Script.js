@@ -12,6 +12,8 @@ const todos = [];
 
 const updateTableView = () => {
 
+
+
     // Get the keys of all items in localStorage
     const keys = Object.keys(localStorage);
     if (keys.length) {
@@ -23,9 +25,9 @@ const updateTableView = () => {
             // Check if value is not null and parse it
 
             const task = JSON.parse(value);
-            // console.log(task.name, task.dueDate, task.completed);
+
             const row = document.createElement("tr");
-            row.classList.add("tasks");
+            row.classList.add('task');
             const rowName = document.createElement("td");
             rowName.textContent = task.name;
             const rowDue = document.createElement("td");
@@ -64,11 +66,12 @@ const updateTableView = () => {
 
             row.append(rowName, rowDue, rowStatus, rowActions)
             tbody.append(row);
-            // console.log("append success");
+
 
         });
         // 
     }
+
 }
 
 //filters
@@ -81,8 +84,8 @@ const allFilter = (event) => {
         // Check if value is not null and parse it
 
         const task = JSON.parse(value);
-        const tasksRow = document.getElementsByClassName("tasks");
-        tasksRow[key].classList.remove("filter");
+        const taskRow = document.getElementsByClassName('task');
+        taskRow.classList.remove("filter");
 
     });
 }
@@ -95,37 +98,43 @@ const completedFilter = () => {
         const value = localStorage.getItem(key);
 
         // Check if value is not null and parse it
+        if (value) {
+            const task = JSON.parse(value);
+            const taskRow = document.getElementsByClassName('task');
 
-        const task = JSON.parse(value);
-        const tasksRow = document.getElementsByClassName("tasks");
+            if (task.completed) {
+                console.log(taskRow);
+                taskRow.classList.remove("filter");
+            } else {
+                taskRow.classList.add("filter");
 
-        if (!task.completed) {
-            tasksRow[key].classList.add("filter");
-        }else{
-            tasksRow[key].classList.remove("filter");
+            }
         }
     });
 }
 
 const PendingFilter = () => {
     const keys = Object.keys(localStorage);
+    const taskRow = document.getElementsByClassName('task');
+
+    console.log(taskRow);
+
     keys.forEach(key => {
 
         const value = localStorage.getItem(key);
-
+        console.log(taskRow[key]);
         // Check if value is not null and parse it
+        // if (value) {
+        //     const task = JSON.parse(value);
 
-        const task = JSON.parse(value);
-        const tasksRow = document.getElementsByClassName("tasks");
+        //     if (task.completed) {
+        //         taskRow[key].classList.add("filter");
 
-        if (task.completed) {
-            console.log(tasksRow[key]);
-            tasksRow[key].classList.add("filter");
-            console.log("Done")
-        }else{
-            tasksRow[key].classList.remove("filter");
+        //     } else {
+        //         taskRow[key].classList.remove("filter");
 
-        }
+        //     }
+        // }
     });
 }
 
@@ -168,6 +177,34 @@ const showAlert = (message, type) => {
     alertMessage.append(alert)
 }
 
+const deleteAll = () => {
+
+
+
+    tbody.innerHTML = ""
+
+    const taskRowNoData = document.createElement("tr");
+    taskRowNoData.id = "no-task";
+
+
+    // <td colspan="4" id="no-data-found">No data found</td>
+    const columnNoData = document.createElement("td");
+    columnNoData.textContent = "No data Found";
+    columnNoData.id = "no-data-found"
+    columnNoData.colSpan = "4";
+
+    taskRowNoData.append(columnNoData);
+
+    //<tbody id="tbody" class="column">
+
+    tbody.append(taskRowNoData);
+
+    localStorage.clear();
+
+    showAlert("All todos deleted successfully", "success");
+    updateTableView();
+}
+
 // Add the event listener
 addNewToDo.addEventListener('click', addNewToDoHandler);
 
@@ -182,5 +219,8 @@ completedFilterButton.addEventListener('click', completedFilter);
 
 const pendingFilterButton = document.getElementById('pending-filter');
 pendingFilterButton.addEventListener('click', PendingFilter);
+
+const deleteAllButton = document.getElementById('delete-all-button');
+deleteAllButton.addEventListener('click', deleteAll);
 
 window.onload = updateTableView();
