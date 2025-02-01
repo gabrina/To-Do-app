@@ -6,9 +6,15 @@ const taskDue = document.getElementById('todo-due');
 const alertMessage = document.getElementById('alert-massage');
 const tbody = document.getElementById('tbody');
 
-//Define global array of all to dos
-const todos = [];
 
+function getLastKeyUsed() {
+    const keys = Object.keys(localStorage);
+    if (keys.length === 0) {
+        return null;
+    }
+    // Assuming the last key used is the most recent one added
+    return keys[keys.length - 1];
+}
 
 const updateTableView = () => {
 
@@ -71,28 +77,53 @@ const updateTableView = () => {
         });
         // 
     }
+    else {
+        tbody.innerHTML = ""
+
+        const taskRowNoData = document.createElement("tr");
+        taskRowNoData.id = "no-task";
+
+
+        // <td colspan="4" id="no-data-found">No data found</td>
+        const columnNoData = document.createElement("td");
+        columnNoData.textContent = "No data Found";
+        columnNoData.id = "no-data-found"
+        columnNoData.colSpan = "4";
+
+        taskRowNoData.append(columnNoData);
+
+        //<tbody id="tbody" class="column">
+
+        tbody.append(taskRowNoData);
+
+    }
 
 }
 
 //filters
 const allFilter = (event) => {
     const keys = Object.keys(localStorage);
+    const taskRow = document.getElementsByClassName('task');
+
+    // console.log(taskRow);
+
     keys.forEach(key => {
-
         const value = localStorage.getItem(key);
-
         // Check if value is not null and parse it
-
-        const task = JSON.parse(value);
-        const taskRow = document.getElementsByClassName('task');
-        taskRow.classList.remove("filter");
-
+        if (value) {
+            const task = JSON.parse(value);
+            taskRow[key].classList.remove("filter");
+        }
     });
 }
 
 const completedFilter = () => {
 
     const keys = Object.keys(localStorage);
+    const taskRow = document.getElementsByClassName('task');
+
+    // console.log(taskRow);
+
     keys.forEach(key => {
 
         const value = localStorage.getItem(key);
@@ -100,13 +131,12 @@ const completedFilter = () => {
         // Check if value is not null and parse it
         if (value) {
             const task = JSON.parse(value);
-            const taskRow = document.getElementsByClassName('task');
 
             if (task.completed) {
-                console.log(taskRow);
-                taskRow.classList.remove("filter");
+                taskRow[key].classList.remove("filter");
+
             } else {
-                taskRow.classList.add("filter");
+                taskRow[key].classList.add("filter");
 
             }
         }
@@ -117,24 +147,24 @@ const PendingFilter = () => {
     const keys = Object.keys(localStorage);
     const taskRow = document.getElementsByClassName('task');
 
-    console.log(taskRow);
+    // console.log(taskRow);
 
     keys.forEach(key => {
 
         const value = localStorage.getItem(key);
-        console.log(taskRow[key]);
+
         // Check if value is not null and parse it
-        // if (value) {
-        //     const task = JSON.parse(value);
+        if (value) {
+            const task = JSON.parse(value);
 
-        //     if (task.completed) {
-        //         taskRow[key].classList.add("filter");
+            if (task.completed) {
+                taskRow[key].classList.add("filter");
 
-        //     } else {
-        //         taskRow[key].classList.remove("filter");
+            } else {
+                taskRow[key].classList.remove("filter");
 
-        //     }
-        // }
+            }
+        }
     });
 }
 
@@ -152,8 +182,8 @@ const addNewToDoHandler = (event) => {
 
 
     if (todo.name && todo.dueDate) {
-        todos.push(todo);
-        localStorage.setItem(todos.lastIndexOf(todo), JSON.stringify(todo));
+        console.log(getLastKeyUsed());
+        localStorage.setItem(getLastKeyUsed() + 1, JSON.stringify(todo));
         updateTableView();
         showAlert("Todo created succesfully", "success");
 
@@ -178,29 +208,7 @@ const showAlert = (message, type) => {
 }
 
 const deleteAll = () => {
-
-
-
-    tbody.innerHTML = ""
-
-    const taskRowNoData = document.createElement("tr");
-    taskRowNoData.id = "no-task";
-
-
-    // <td colspan="4" id="no-data-found">No data found</td>
-    const columnNoData = document.createElement("td");
-    columnNoData.textContent = "No data Found";
-    columnNoData.id = "no-data-found"
-    columnNoData.colSpan = "4";
-
-    taskRowNoData.append(columnNoData);
-
-    //<tbody id="tbody" class="column">
-
-    tbody.append(taskRowNoData);
-
     localStorage.clear();
-
     showAlert("All todos deleted successfully", "success");
     updateTableView();
 }
@@ -223,4 +231,8 @@ pendingFilterButton.addEventListener('click', PendingFilter);
 const deleteAllButton = document.getElementById('delete-all-button');
 deleteAllButton.addEventListener('click', deleteAll);
 
+const editbuttons = document.getElementByclass("actionButton");
+console.log(editbuttons);
+
 window.onload = updateTableView();
+
