@@ -6,6 +6,7 @@ const alertBox = document.getElementById("alert-massage");
 const todosBody = document.querySelector("tbody");
 const deleteAllButton = document.getElementById("delete-all-button");
 const editButton = document.getElementById("editToDo");
+const filterButton = document.querySelectorAll(".filter");
 
 //defining global variables
 const todos = JSON.parse(localStorage.getItem("todos")) || [];
@@ -49,10 +50,11 @@ const addNewToDoHandler = () => {
   }
 };
 
-const displayTodos = () => {
+const displayTodos = (filteredTodos) => {
+  const todosList = filteredTodos ? filteredTodos : todos;
   todosBody.innerHTML = "";
-  if (todos.length) {
-    todos.forEach((task) => {
+  if (todosList.length) {
+    todosList.forEach((task) => {
       //preserving previous looped taskes
       todosBody.innerHTML += `<tr>
       <td>${task.name}</td>
@@ -146,8 +148,29 @@ const applyEditing = (event) => {
   showAlert("Task edited", "success");
 };
 
+const filterTodo = (event) => {
+  const filter = event.target.dataset.filter;
+  let filteredTodos = null;
+  switch (filter) {
+    case "completed":
+      filteredTodos = todos.filter((task) => task.status === "completed");
+      break;
+    case "pending":
+      filteredTodos = todos.filter((task) => task.status === "pending");
+      break;
+    default:
+      filteredTodos = todos;
+      break;
+  }
+  displayTodos(filteredTodos);
+};
+
 //defining event listeners
 addNewToDo.addEventListener("click", addNewToDoHandler);
 deleteAllButton.addEventListener("click", deleteAllHandeler);
 editButton.addEventListener("click", applyEditing);
-window.onload = displayTodos;
+filterButton.forEach((button) => {
+  button.addEventListener("click", filterTodo);
+});
+
+window.addEventListener("load", () => displayTodos);
