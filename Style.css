@@ -96,13 +96,19 @@ thead td {
     background-color: gray;
 }
 
+tbody td{
+    width: 25%;
+}
+
 .column {
     height: 25px;
     padding: 5px;
     text-align: center;
     max-width: 400px;
-    flex-wrap: nowrap;
+    /* flex-wrap: nowrap; */
 }
+
+
 
 #id {
     background-color: var(--color-primary);
